@@ -1,12 +1,8 @@
 from typing import Optional
-
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, IntegerIDMixin, exceptions, models, schemas
-from sqlalchemy import update
-from sqlalchemy.ext.asyncio import AsyncSession
+from auth.database import User, get_user_db
 
-from auth.database import User, get_user_db, get_async_session
-from models.models import user
 
 SECRET = "MYSTERY"
 
@@ -36,19 +32,6 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
             else user_create.create_update_dict_superuser()
         )
         password = user_dict.pop("password")
-
-        ref_code = str(user_dict.pop("referral_code"))
-        mail = user_dict['email']
-
-        async def add_referrals(ref_code_in: ref_code, session: AsyncSession = get_async_session()):
-            stmt = update(user).where(user.c.referral_code == ref_code_in).values(referrals=mail)
-            await session.execute(stmt)
-            await session.commit()
-            return {"status": "success"}
-
-        if ref_code is not None:
-            await add_referrals(ref_code)
-
         user_dict["hashed_password"] = self.password_helper.hash(password)
         user_dict["referral_code"] = ""
         user_dict["referrals"] = {}
