@@ -1,5 +1,7 @@
 from fastapi_users import FastAPIUsers
 from fastapi import FastAPI, Depends
+
+from router_for_auth_users import router as router_for_auth_users
 from auth.auth import auth_backend
 from auth.database import User
 from auth.manager import get_user_manager
@@ -17,22 +19,15 @@ fastapi_users = FastAPIUsers[User, int](
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),
     prefix="/auth/jwt",
-    tags=["auth"],
+    tags=["Auth"],
 )
 
 app.include_router(
     fastapi_users.get_register_router(UserRead, UserCreate),
     prefix="/auth",
-    tags=["auth"],
+    tags=["Auth"],
 )
 
 current_user = fastapi_users.current_user()
 
-@app.get("/protected-route")
-def protected_route(user: User = Depends(current_user)):
-    return f"Hello, {user.username}"
-
-
-@app.get("/unprotected-route")
-def unprotected_route():
-    return f"Hello, anonym"
+app.include_router(router_for_auth_users)
