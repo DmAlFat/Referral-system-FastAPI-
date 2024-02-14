@@ -1,7 +1,8 @@
 from fastapi_users import FastAPIUsers
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 
-from router_for_auth_users import router as router_for_auth_users
+from routers.router_for_auth_users import router as router_for_auth_users
+from routers.router_for_all_users import router as router_for_all_users
 from auth.auth import auth_backend
 from auth.database import User
 from auth.manager import get_user_manager
@@ -31,3 +32,5 @@ app.include_router(
 current_user = fastapi_users.current_user()
 
 app.include_router(router_for_auth_users)
+
+app.include_router(router_for_all_users)
