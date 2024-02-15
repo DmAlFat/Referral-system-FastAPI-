@@ -10,15 +10,18 @@ router = APIRouter(
 )
 
 
-@router.get("/")
+@router.get("/get_referral_code")
 async def get_referral_code(email: str, session: AsyncSession = Depends(get_async_session)):
     query = select(user.c.referral_code).select_from(user).where(user.c.email == email)
     result = await session.execute(query)
-    res_out = result.one()
-    return f"{res_out[0]}"
+    try:
+        res_out = result.one()
+        return f"{res_out[0]}"
+    except:
+        return f"User with this email is not registered"
 
 
-@router.post("/")
+@router.post("/receive_info_on_referrals")
 async def receive_info_on_referrals(user_id: int, session: AsyncSession = Depends(get_async_session)):
     query = select(user.c.referrals).select_from(user).where(user.c.id == user_id)
     result = await session.execute(query)

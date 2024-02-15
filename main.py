@@ -34,3 +34,8 @@ current_user = fastapi_users.current_user()
 app.include_router(router_for_auth_users)
 
 app.include_router(router_for_all_users)
+
+
+@app.get("/", tags=["Start Page"])
+async def easy_start_page():
+    return f"Welcome to the Referral System's service"

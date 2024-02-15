@@ -23,9 +23,9 @@ router = APIRouter(
 )
 
 
-@router.get("/created_referral_code")
-async def created_referral_code(my_user: User = Depends(current_user),
-                                session: AsyncSession = Depends(get_async_session)):
+@router.get("/create_referral_code")
+async def create_referral_code(my_user: User = Depends(current_user),
+                               session: AsyncSession = Depends(get_async_session)):
     ref_in = ''.join(sample(ascii_letters + digits, 8))
     stmt = update(user).where(user.c.id == my_user.id).values(referral_code=ref_in)
     await session.execute(stmt)
@@ -33,9 +33,9 @@ async def created_referral_code(my_user: User = Depends(current_user),
     return f"Your referral code: {ref_in}"
 
 
-@router.get("/deleted_referral_code")
-async def deleted_referral_code(my_user: User = Depends(current_user),
-                                session: AsyncSession = Depends(get_async_session)):
+@router.get("/delete_referral_code")
+async def delete_referral_code(my_user: User = Depends(current_user),
+                               session: AsyncSession = Depends(get_async_session)):
     stmt = update(user).where(user.c.id == my_user.id).values(referral_code='')
     await session.execute(stmt)
     await session.commit()
