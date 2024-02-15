@@ -7,6 +7,8 @@ from auth.auth import auth_backend
 from auth.database import User, get_async_session
 from auth.manager import get_user_manager
 from models.models import user
+from string import ascii_letters, digits
+from random import sample
 
 fastapi_users = FastAPIUsers[User, int](
     get_user_manager,
@@ -24,7 +26,7 @@ router = APIRouter(
 @router.get("/created_referral_code")
 async def created_referral_code(my_user: User = Depends(current_user),
                                 session: AsyncSession = Depends(get_async_session)):
-    ref_in = 'mortal combat'  # временная реализация
+    ref_in = ''.join(sample(ascii_letters + digits, 8))
     stmt = update(user).where(user.c.id == my_user.id).values(referral_code=ref_in)
     await session.execute(stmt)
     await session.commit()
