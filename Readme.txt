@@ -16,32 +16,32 @@ uvicorn main:app --reload
 
 ---Блок авторизации (FastAPIUsers, JWT, CookieTransport)---
 --Авторизация (При авторизации в качестве username используется исключительно email)--
-[POST] http://localhost:localport/auth/jwt/login
+[POST] http://127.0.0.1:8000//auth/jwt/login
 --Выход из системы--
-[POST] http://localhost:localport/auth/jwt/logout
+[POST] http://127.0.0.1:8000/auth/jwt/logout
 --Регистрация (При введении действительного реферального кода Вы автоматически будете зарегистрированы в качестве реферала)--
-[POST] http://localhost:localport/auth/register
+[POST] http://127.0.0.1:8000/auth/register
 
 ---Функционал для авторизованных пользователей---
 --Создание своего случайного реферального кода--
-[GET] http://localhost:localport/functionality for authorized users/create_referral_code
+[GET] http://127.0.0.1:8000/functionality for authorized users/create_referral_code
 --Удаление своего реферального кода--
-[GET] http://localhost:localport/functionality for authorized users/delete_referral_code
+[GET] http://127.0.0.1:8000/functionality for authorized users/delete_referral_code
 
 ---Функционал для всех пользователей---
 --Получить реферальный код по email реферера--
-[GET] http://localhost:localport/functionality for all users/get_referral_code
+[GET] http://127.0.0.1:8000/functionality for all users/get_referral_code
 --Получить информацию о рефералах по id реферера--
-[POST] http://localhost:localport/functionality for all users/receive_info_on_referrals
+[POST] http://127.0.0.1:8000/functionality for all users/receive_info_on_referrals
 
 ---Стартовая страница---
 --Получение приветственного сообщения--
-[GET] http://localhost:localport/
+[GET] http://127.0.0.1:8000/
 
 
 -----UI документация (Swagger/ReDoc)-----
 
 --Swagger--
-http://localhost:localport/docs
+http://127.0.0.1:8000/docs
 --ReDoc--
-http://localhost:localport/redoc
+http://127.0.0.1:8000/redoc
