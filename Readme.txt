@@ -27,7 +27,7 @@ uvicorn main:app --reload
 [POST] http://127.0.0.1:8000/auth/register
 
 ---Функционал для авторизованных пользователей---
---Создание своего случайного реферального кода--
+--Создание своего случайного реферального кода (с указанием его срока действия в секундах)--
 [GET] http://127.0.0.1:8000/functionality_for_authorized_users/create_referral_code
 --Удаление своего реферального кода--
 [GET] http://127.0.0.1:8000/functionality_for_authorized_users/delete_referral_code
