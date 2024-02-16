@@ -5,7 +5,7 @@ from auth.database import get_async_session
 from models.models import user
 
 router = APIRouter(
-    prefix="/functionality for all users",
+    prefix="/functionality_for_all_users",
     tags=["Functionality for all users"]
 )
 

@@ -18,7 +18,7 @@ fastapi_users = FastAPIUsers[User, int](
 current_user = fastapi_users.current_user()
 
 router = APIRouter(
-    prefix="/functionality for authorized users",
+    prefix="/functionality_for_authorized_users",
     tags=["Functionality for authorized users"]
 )
 

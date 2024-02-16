@@ -14,6 +14,10 @@ uvicorn main:app --reload
 
 -----Реализованные API-----
 
+---Стартовая страница---
+--Получение приветственного сообщения--
+[GET] http://127.0.0.1:8000/
+
 ---Блок авторизации (FastAPIUsers, JWT, CookieTransport)---
 --Авторизация (При авторизации в качестве username используется исключительно email)--
 [POST] http://127.0.0.1:8000//auth/jwt/login
@@ -24,19 +28,15 @@ uvicorn main:app --reload
 
 ---Функционал для авторизованных пользователей---
 --Создание своего случайного реферального кода--
-[GET] http://127.0.0.1:8000/functionality for authorized users/create_referral_code
+[GET] http://127.0.0.1:8000/functionality_for_authorized_users/create_referral_code
 --Удаление своего реферального кода--
-[GET] http://127.0.0.1:8000/functionality for authorized users/delete_referral_code
+[GET] http://127.0.0.1:8000/functionality_for_authorized_users/delete_referral_code
 
 ---Функционал для всех пользователей---
 --Получить реферальный код по email реферера--
-[GET] http://127.0.0.1:8000/functionality for all users/get_referral_code
+[GET] http://127.0.0.1:8000/functionality_for_all_users/get_referral_code
 --Получить информацию о рефералах по id реферера--
-[POST] http://127.0.0.1:8000/functionality for all users/receive_info_on_referrals
-
----Стартовая страница---
---Получение приветственного сообщения--
-[GET] http://127.0.0.1:8000/
+[POST] http://127.0.0.1:8000/functionality_for_all_users/receive_info_on_referrals
 
 
 -----UI документация (Swagger/ReDoc)-----
