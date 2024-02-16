@@ -5,7 +5,10 @@ git clone https://github.com/DmAlFat/Referral-system-FastAPI-.git
 pip install -r requirements.txt
 -Задать параметры для подключения к Вашей базе данных PostgreSQL:
 файл .env в корне проекта 
-
+-Сгенерировать миграцию alembic:
+alembic revision --autogenerate -m 'initial'
+-Выполнить миграцию alembic:
+alembic upgrade head
 
 -----Запуск-----
 -Запустить сервер:
