@@ -3,11 +3,10 @@ from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, IntegerIDMixin, exceptions, models, schemas
 from sqlalchemy import update, select
 from sqlalchemy.ext.asyncio import AsyncSession
-
+from time import time
 from auth.database import User, get_user_db, engine
 from models.models import user
-
-SECRET = "MYSTERY"
+from config import SECRET
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
@@ -45,16 +44,18 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
                 result = await sess.execute(query)
                 res = result.all()
         if len(res) > 0:
-            ref_in = res[0][5]
-            ref_in[user_dict['email']] = user_dict['username']
-            async with AsyncSession(autoflush=False, bind=engine) as session:
-                stmt = update(user).where(user.c.referral_code == ref_code).values(referrals=ref_in)
-                await session.execute(stmt)
-                await session.commit()
+            if res[0][9] > time():
+                ref_in = res[0][5]
+                ref_in[user_dict['email']] = user_dict['username']
+                async with AsyncSession(autoflush=False, bind=engine) as session:
+                    stmt = update(user).where(user.c.referral_code == ref_code).values(referrals=ref_in)
+                    await session.execute(stmt)
+                    await session.commit()
 
         user_dict["hashed_password"] = self.password_helper.hash(password)
         user_dict["referral_code"] = ""
         user_dict["referrals"] = {}
+        user_dict["ref_code_death_time"] = time()
 
         created_user = await self.user_db.create(user_dict)
 

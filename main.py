@@ -17,9 +17,11 @@ fastapi_users = FastAPIUsers[User, int](
     [auth_backend],
 )
 
+
 @app.get("/", tags=["Start Page"])
 async def easy_start_page():
     return f"Welcome to the Referral System's service"
+
 
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),

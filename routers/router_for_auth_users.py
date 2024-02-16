@@ -9,6 +9,7 @@ from auth.manager import get_user_manager
 from models.models import user
 from string import ascii_letters, digits
 from random import sample
+from time import time
 
 fastapi_users = FastAPIUsers[User, int](
     get_user_manager,
@@ -24,10 +25,11 @@ router = APIRouter(
 
 
 @router.get("/create_referral_code")
-async def create_referral_code(my_user: User = Depends(current_user),
+async def create_referral_code(referral_code_life_time: int, my_user: User = Depends(current_user),
                                session: AsyncSession = Depends(get_async_session)):
-    ref_in = ''.join(sample(ascii_letters + digits, 8))
-    stmt = update(user).where(user.c.id == my_user.id).values(referral_code=ref_in)
+    ref_in = ''.join(sample(ascii_letters + digits, 16))
+    dt = time() + referral_code_life_time
+    stmt = update(user).where(user.c.id == my_user.id).values(referral_code=ref_in, ref_code_death_time=dt)
     await session.execute(stmt)
     await session.commit()
     return f"Your referral code: {ref_in}"
@@ -36,7 +38,7 @@ async def create_referral_code(my_user: User = Depends(current_user),
 @router.get("/delete_referral_code")
 async def delete_referral_code(my_user: User = Depends(current_user),
                                session: AsyncSession = Depends(get_async_session)):
-    stmt = update(user).where(user.c.id == my_user.id).values(referral_code='')
+    stmt = update(user).where(user.c.id == my_user.id).values(referral_code='', ref_code_death_time=time())
     await session.execute(stmt)
     await session.commit()
     return f"Your referral code deleted"

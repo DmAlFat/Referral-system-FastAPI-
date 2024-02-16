@@ -14,4 +14,5 @@ user = Table(
     Column("is_active", Boolean, default=True, nullable=False),
     Column("is_superuser", Boolean, default=False, nullable=False),
     Column("is_verified", Boolean, default=False, nullable=False),
+    Column("ref_code_death_time", Integer, nullable=False),
 )
